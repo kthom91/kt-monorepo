@@ -2,24 +2,24 @@
   "name": "kt-ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "packages/kt-ui/src",
+  "sourceRoot": "apps/kt-ui/src",
   "prefix": "kt-monorepo",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/kt-ui",
-        "index": "packages/kt-ui/src/index.html",
-        "main": "packages/kt-ui/src/main.ts",
+        "outputPath": "dist/apps/kt-ui",
+        "index": "apps/kt-ui/src/index.html",
+        "main": "apps/kt-ui/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "packages/kt-ui/tsconfig.app.json",
+        "tsConfig": "apps/kt-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "packages/kt-ui/src/favicon.ico",
-          "packages/kt-ui/src/assets"
+          "apps/kt-ui/src/favicon.ico",
+          "apps/kt-ui/src/assets"
         ],
-        "styles": ["packages/kt-ui/src/styles.scss"],
+        "styles": ["apps/kt-ui/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -72,8 +72,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/kt-ui/**/*.ts",
-          "packages/kt-ui/**/*.html"
+          "apps/kt-ui/**/*.ts",
+          "apps/kt-ui/**/*.html"
         ]
       }
     },
@@ -81,7 +81,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/kt-ui/jest.config.ts",
+        "jestConfig": "apps/kt-ui/jest.config.ts",
         "passWithNoTests": true
       }
     }

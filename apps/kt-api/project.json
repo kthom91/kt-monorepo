@@ -1,7 +1,7 @@
 {
   "name": "kt-api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/kt-api/src",
+  "sourceRoot": "apps/kt-api/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,10 +10,10 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/packages/kt-api",
-        "main": "packages/kt-api/src/main.ts",
-        "tsConfig": "packages/kt-api/tsconfig.app.json",
-        "assets": ["packages/kt-api/src/assets"]
+        "outputPath": "dist/apps/kt-api",
+        "main": "apps/kt-api/src/main.ts",
+        "tsConfig": "apps/kt-api/tsconfig.app.json",
+        "assets": ["apps/kt-api/src/assets"]
       },
       "configurations": {
         "production": {
@@ -22,8 +22,8 @@
           "inspect": false,
           "fileReplacements": [
             {
-              "replace": "packages/kt-api/src/environments/environment.ts",
-              "with": "packages/kt-api/src/environments/environment.prod.ts"
+              "replace": "apps/kt-api/src/environments/environment.ts",
+              "with": "apps/kt-api/src/environments/environment.prod.ts"
             }
           ]
         }
@@ -44,14 +44,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/kt-api/**/*.ts"]
+        "lintFilePatterns": ["apps/kt-api/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/kt-api/jest.config.ts",
+        "jestConfig": "apps/kt-api/jest.config.ts",
         "passWithNoTests": true
       }
     }

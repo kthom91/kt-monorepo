@@ -2,7 +2,10 @@
   "name": "kt-monorepo",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build-ci": "ng build --prod && ng build kt-api",
+    "start-app": "node dist/apps/kt-api/main.js"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~15.0.0",
@@ -16,6 +19,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/serve-static": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0",

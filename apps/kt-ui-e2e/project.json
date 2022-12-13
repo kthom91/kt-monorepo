@@ -1,13 +1,13 @@
 {
   "name": "kt-ui-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/kt-ui-e2e/src",
+  "sourceRoot": "apps/kt-ui-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "packages/kt-ui-e2e/cypress.config.ts",
+        "cypressConfig": "apps/kt-ui-e2e/cypress.config.ts",
         "devServerTarget": "kt-ui:serve:development",
         "testingType": "e2e"
       },
@@ -21,7 +21,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/kt-ui-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/kt-ui-e2e/**/*.{js,ts}"]
       }
     }
   },
