@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nx serve",
     "start-api": "node dist/apps/kt-api/main.js",
-    "build": "nx run-many --target=build",
+    "build-api": "nx run kt-api:build",
+    "build-ui": "nx run kt-ui:build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
