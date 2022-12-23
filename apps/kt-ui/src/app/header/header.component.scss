@@ -1,0 +1,10 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.button-icon { 
+  &:hover {
+    fill: rgba(#7f15c5, 1); 
+    cursor: pointer;
+  }
+ }
