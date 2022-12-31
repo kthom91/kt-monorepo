@@ -1,5 +1,1 @@
-<mat-grid-list cols="2" rowHeight="fit">
-  <mat-grid-tile *ngFor="let setlist of setlists$ | async">
-    <kt-monorepo-setlist-card [setlist]="setlist"></kt-monorepo-setlist-card>
-  </mat-grid-tile>
-</mat-grid-list>
+<kt-monorepo-setlist-card *ngFor="let setlist of setlists$ | async" [setlist]="setlist"></kt-monorepo-setlist-card>
