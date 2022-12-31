@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, forkJoin, map, mergeMap, Observable, tap } from 'rxjs';
 import { Setlist, SetlistFmResponse } from '@kt-monorepo/kt-shared';
 
 const SETLIST_FM_URL = 'https://api.setlist.fm/rest/1.0/user/kentrain/attended';
@@ -18,10 +18,24 @@ export class SetlistFmService {
   getSetlistFmUserDetails(): Observable<Setlist[]> {
     return this.httpService.get(SETLIST_FM_URL, { headers: this.headers }).pipe(
       map(resp => resp.data),
-      map((data: SetlistFmResponse) => data.setlist),
+      mergeMap((data: SetlistFmResponse) => this.getRemainingSetlists(data)),
       catchError(err => { 
         console.error(`${ERROR_MSG} : ${err}`);
         throw new HttpException(ERROR_MSG, HttpStatus.SERVICE_UNAVAILABLE); })
+    );
+  }
+
+  // Fetch remaining setlists and merge with first page
+  private getRemainingSetlists(response: SetlistFmResponse): Observable<Setlist[]> {
+    const totalPageCount = Math.ceil(response.total / response.itemsPerPage);
+    const requests: Observable<any>[] = [];
+    for (let i = 2; i <= totalPageCount; i++) {
+      const params = { p: i};
+      requests.push(this.httpService.get(SETLIST_FM_URL, { headers: this.headers, params: params }));
+    }
+    return forkJoin(requests).pipe(
+      map(responseArray => responseArray.map(response => response.data?.setlist).flat()),
+      tap(setlistArray => setlistArray.splice(0, 0, ...response.setlist))
     );
   }
 }
