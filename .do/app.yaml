@@ -1,39 +1,39 @@
 domains:
-  - domain: kennythomson.dev
-    type: PRIMARY
-    zone: kennythomson.dev
+- domain: kennythomson.dev
+  type: PRIMARY
+  zone: kennythomson.dev
 name: kt-app
 region: nyc
 services:
-  - build_command: npm run build-api
-    environment_slug: node-js
-    envs:
-      - key: SETLIST_FM_API_KEY
-        scope: RUN_AND_BUILD_TIME
-        type: SECRET
-        value: EV[1:HuG60eWT7Bl1CadA1x7auslP266bJWMJ:L35kLqXIUn454OAbeZrsVVnrAwhz/MeN9wLD3R4fRH9AcWWn7/eRe+lFO0F5aTTPA/+s/w==]
-    github:
-      branch: main
-      deploy_on_push: true
-      repo: kthom91/kt-monorepo
-    http_port: 8080
-    instance_count: 1
-    instance_size_slug: basic-xxs
-    name: kt-api
-    routes:
-      - path: /api
-    run_command: npm run start-api
-    source_dir: /
+- build_command: npm run build-api
+  environment_slug: node-js
+  envs:
+  - key: SETLIST_FM_API_KEY
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:OkdLn3prwSPigPLATu8hvWo3VgaB844n:C1VYTksQOZuMPeqUZ4MJTlX/IdDP+KkDz5hT3Yz00ByCBO9BJHwXc2/pjrrbKdsuWHZSYQ==]
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: kthom91/kt-monorepo
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: kt-api
+  routes:
+  - path: /api
+  run_command: npm run start-api
+  source_dir: /
 static_sites:
-  - build_command: npm run build-ui
-    catchall_document: index.html
-    environment_slug: html
-    github:
-      branch: main
-      deploy_on_push: true
-      repo: kthom91/kt-monorepo
-    name: kt-ui
-    output_dir: /dist/apps/kt-ui
-    routes:
-      - path: /
-    source_dir: /
+- build_command: npm run build-ui
+  catchall_document: index.html
+  environment_slug: html
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: kthom91/kt-monorepo
+  name: kt-ui
+  output_dir: /dist/apps/kt-ui
+  routes:
+  - path: /
+  source_dir: /
