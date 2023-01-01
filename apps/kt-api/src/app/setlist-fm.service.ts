@@ -37,8 +37,8 @@ export class SetlistFmService {
       map(responseArray => responseArray.map(response => response.data?.setlist).flat()),
       tap(setlistArray => setlistArray.splice(0, 0, ...response.setlist)),
       map(setlistArray => setlistArray.map((setlist: Setlist) => {
-        const dateParts = setlist.eventDate.split('-');
-        setlist.eventDateAsDate = new Date(dateParts[2], (Number(dateParts[1]) - 1), dateParts[0]);
+        const dateParts = setlist.eventDate.split('-').map(s => Number(s));
+        setlist.eventDateAsDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
         return setlist;
       }))
     );
