@@ -28,6 +28,7 @@ export interface SetlistFmResponse {
 export interface Setlist {
   id: string;
 	eventDate: string;
+  eventDateAsDate: Date;
 	artist: Artist;
   venue: Venue;
   sets: Sets;
