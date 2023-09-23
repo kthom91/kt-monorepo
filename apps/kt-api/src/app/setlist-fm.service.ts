@@ -1,6 +1,15 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { catchError, forkJoin, map, mergeMap, Observable, tap } from 'rxjs';
+import {
+  catchError,
+  concat,
+  delay,
+  map,
+  mergeMap,
+  Observable,
+  tap,
+  toArray,
+} from 'rxjs';
 import { Setlist, SetlistFmResponse } from '@kt-monorepo/kt-shared';
 import { SETLIST_FM_URL } from './common/utils/app.constants';
 
@@ -18,6 +27,7 @@ export class SetlistFmService {
   getSetlistFmUserDetails(): Observable<Setlist[]> {
     return this.httpService.get(SETLIST_FM_URL, { headers: this.headers }).pipe(
       map((resp) => resp.data),
+      delay(600), // API Rate Limit 2/s
       mergeMap((data: SetlistFmResponse) => this.getRemainingSetlists(data)),
       catchError((err) => {
         console.error(`${ERROR_MSG} : ${err}`);
@@ -35,17 +45,19 @@ export class SetlistFmService {
     for (let i = 2; i <= totalPageCount; i++) {
       const params = { p: i };
       requests.push(
-        this.httpService.get(SETLIST_FM_URL, {
-          headers: this.headers,
-          params: params,
-        })
+        this.httpService
+          .get(SETLIST_FM_URL, {
+            headers: this.headers,
+            params: params,
+          })
+          .pipe(delay(600)) // API Rate Limit 2/s
       );
     }
-    return forkJoin(requests).pipe(
-      map((responseArray) =>
-        responseArray.map((response) => response.data?.setlist).flat()
-      ),
-      tap((setlistArray) => setlistArray.splice(0, 0, ...response.setlist)),
+
+    console.log('# of remaining Setlist.fm requests: ' + requests.length);
+
+    return concat(...requests).pipe(
+      map((res) => res.data?.setlist),
       map((setlistArray) =>
         setlistArray.map((setlist: Setlist) => {
           const dateParts = setlist.eventDate.split('-').map((s) => Number(s));
@@ -56,7 +68,9 @@ export class SetlistFmService {
           );
           return setlist;
         })
-      )
+      ),
+      toArray(),
+      tap((setlistArray) => setlistArray.splice(0, 0, ...response.setlist))
     );
   }
 }
