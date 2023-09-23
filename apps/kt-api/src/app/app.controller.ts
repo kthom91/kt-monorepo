@@ -23,10 +23,10 @@ export class AppController implements OnModuleInit {
 
   onModuleInit() {
     console.log(`The module has been initialized.`);
-    // TODO: Rate limit the parallel requests to 2/s and then uncomment below
-    // this.getSetlistFmUserDetails().subscribe((setlists) => {
-    //   this.cacheManager.set(SETLIST_FM_CACHE_KEY, setlists);
-    // });
+    this.getSetlistFmUserDetails().subscribe((setlists) => {
+      this.cacheManager.set(SETLIST_FM_CACHE_KEY, setlists);
+      console.log('Setlist.fm cache hydrated!');
+    });
   }
 
   @Get()
