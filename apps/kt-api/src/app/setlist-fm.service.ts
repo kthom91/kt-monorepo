@@ -7,6 +7,7 @@ import {
   map,
   mergeMap,
   Observable,
+  retry,
   tap,
   toArray,
 } from 'rxjs';
@@ -26,8 +27,9 @@ export class SetlistFmService {
 
   getSetlistFmUserDetails(): Observable<Setlist[]> {
     return this.httpService.get(SETLIST_FM_URL, { headers: this.headers }).pipe(
+      tap(() => console.log('Got Setlist.fm page: 1')),
       map((resp) => resp.data),
-      delay(600), // API Rate Limit 2/s
+      delay(1000), // API Rate Limit 2/s
       mergeMap((data: SetlistFmResponse) => this.getRemainingSetlists(data)),
       catchError((err) => {
         console.error(`${ERROR_MSG} : ${err}`);
@@ -50,13 +52,14 @@ export class SetlistFmService {
             headers: this.headers,
             params: params,
           })
-          .pipe(delay(600)) // API Rate Limit 2/s
+          .pipe(delay(1000), retry(2)) // API Rate Limit 2/s
       );
     }
 
     console.log('# of remaining Setlist.fm requests: ' + requests.length);
 
     return concat(...requests).pipe(
+      tap((res) => console.log('Got Setlist.fm page: ' + res.data?.page)),
       map((res) => res.data?.setlist),
       map((setlistArray) =>
         setlistArray.map((setlist: Setlist) => {
@@ -70,7 +73,10 @@ export class SetlistFmService {
         })
       ),
       toArray(),
-      tap((setlistArray) => setlistArray.splice(0, 0, ...response.setlist))
+      map((setlistArray) => {
+        setlistArray.splice(0, 0, ...response.setlist);
+        return setlistArray.flat();
+      })
     );
   }
 }
