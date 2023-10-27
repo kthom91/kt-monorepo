@@ -61,6 +61,11 @@ export class SetlistFmService {
     return concat(...requests).pipe(
       tap((res) => console.log('Got Setlist.fm page: ' + res.data?.page)),
       map((res) => res.data?.setlist),
+      toArray(),
+      map((setlistArray) => {
+        setlistArray.splice(0, 0, ...response.setlist);
+        return setlistArray.flat();
+      }),
       map((setlistArray) =>
         setlistArray.map((setlist: Setlist) => {
           const dateParts = setlist.eventDate.split('-').map((s) => Number(s));
@@ -71,12 +76,7 @@ export class SetlistFmService {
           );
           return setlist;
         })
-      ),
-      toArray(),
-      map((setlistArray) => {
-        setlistArray.splice(0, 0, ...response.setlist);
-        return setlistArray.flat();
-      })
+      )
     );
   }
 }
