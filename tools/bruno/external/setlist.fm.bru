@@ -1,0 +1,15 @@
+meta {
+  name: setlist.fm
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://api.setlist.fm/rest/1.0/user/kentrain/attended
+  body: none
+  auth: none
+}
+
+headers {
+  x-api-key: {{process.env.SETLIST_FM_API_KEY}}
+}
